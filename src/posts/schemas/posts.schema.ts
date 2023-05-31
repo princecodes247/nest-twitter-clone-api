@@ -21,9 +21,10 @@ export class Post {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post' })
   replyTo: Post;
 
-  @Prop()
+  @Prop({ default: false })
   isDeleted: boolean;
 
+  @Prop({ default: false })
   isAdminDeleted: boolean;
 }
 
