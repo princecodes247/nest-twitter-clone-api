@@ -29,6 +29,22 @@ export class PostsController {
     return this.postsService.findAll();
   }
 
+  @Post('/like/:id')
+  @UseGuards(AuthGuard)
+  likePost(@Param('id') id: string, @Request() req) {
+    return this.postsService.likePost(id, req.user.sub);
+  }
+
+  @Post('/reply/:id')
+  @UseGuards(AuthGuard)
+  replyPost(
+    @Param('id') id: string,
+    @Body() reply: CreatePostDto,
+    @Request() req,
+  ) {
+    return this.postsService.replyPost(id, { ...reply, author: req.user.sub });
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.postsService.findOne(id);

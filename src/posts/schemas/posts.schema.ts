@@ -15,8 +15,11 @@ export class Post {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
   author: User;
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }])
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }])
   likes: User[];
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post' })
+  replyTo: Post;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

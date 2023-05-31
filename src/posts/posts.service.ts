@@ -24,6 +24,28 @@ export class PostsService {
     return post;
   }
 
+  async likePost(id: string, user: string) {
+    const post = await this.postModel.findById(id);
+    // Remove the user from the likes array if they have already liked the post
+    if (post.likes.includes(user)) {
+      post.likes = post.likes.filter((like) => like !== user);
+    } else {
+      post.likes = [...post.likes, user];
+    }
+    await post.save();
+    return post;
+  }
+
+  async replyPost(id: string, reply: CreatePostDto) {
+    const post = await this.postModel.findById(id);
+    if (!post) {
+      throw new Error('Post not found');
+    }
+    const replyPost = new this.postModel({ ...reply, replyTo: id });
+    await replyPost.save();
+    return replyPost;
+  }
+
   update(id: number, updatePostDto: UpdatePostDto) {
     return `This action updates a #${id} post`;
   }
