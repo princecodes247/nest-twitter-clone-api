@@ -50,6 +50,23 @@ export class PostsService {
     return `This action updates a #${id} post`;
   }
 
+  async deletePost(id: string, user: string, isAdmin = false) {
+    const post = await this.postModel.findById(id);
+    if (!post) {
+      throw new Error('Post not found');
+    }
+    if (post.author !== user) {
+      throw new Error('You are not the author of this post');
+    }
+    if (isAdmin) {
+      post.isAdminDeleted = true;
+    } else {
+      post.isDeleted = true;
+    }
+    await post.save();
+    return post;
+  }
+
   remove(id: number) {
     return `This action removes a #${id} post`;
   }

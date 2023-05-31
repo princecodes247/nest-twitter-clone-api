@@ -20,6 +20,11 @@ export class Post {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post' })
   replyTo: Post;
+
+  @Prop()
+  isDeleted: boolean;
+
+  isAdminDeleted: boolean;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

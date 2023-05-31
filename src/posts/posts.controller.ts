@@ -45,6 +45,12 @@ export class PostsController {
     return this.postsService.replyPost(id, { ...reply, author: req.user.sub });
   }
 
+  @Post('/delete/:id')
+  @UseGuards(AuthGuard)
+  delete(@Param('id') id: string, @Request() req) {
+    return this.postsService.deletePost(id, req.user.sub);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.postsService.findOne(id);
