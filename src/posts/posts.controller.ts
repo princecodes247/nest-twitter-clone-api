@@ -25,6 +25,7 @@ export class PostsController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
   findAll() {
     return this.postsService.findAll();
   }
@@ -52,16 +53,19 @@ export class PostsController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
   findOne(@Param('id') id: string) {
     return this.postsService.findOne(id);
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
   update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
     return this.postsService.update(+id, updatePostDto);
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
   remove(@Param('id') id: string) {
     return this.postsService.remove(+id);
   }

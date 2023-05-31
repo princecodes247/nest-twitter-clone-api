@@ -20,7 +20,15 @@ export class PostsService {
   }
 
   async findOne(id: string) {
-    const post = await this.postModel.findById(id);
+    const post = await this.postModel.findById(id).lean();
+    if (!post) {
+      throw new Error('Post not found');
+    }
+
+    if (post.isDeleted || post.isAdminDeleted) {
+      delete post.content;
+      delete post.title;
+    }
     return post;
   }
 
@@ -55,7 +63,7 @@ export class PostsService {
     if (!post) {
       throw new Error('Post not found');
     }
-    if (post.author !== user) {
+    if (post.author.toString() !== user) {
       throw new Error('You are not the author of this post');
     }
     if (isAdmin) {
